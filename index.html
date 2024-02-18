@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caesar Cipher</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h1, h2, label, input, button, p {
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      color: #ff0000;
+    }
+
+    button {
+      background-color: #ff0000;
+      color: #fff;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #990000;
+    }
+
+    textarea, select, input {
+      padding: 10px;
+      box-sizing: border-box;
+      width: 80%;
+    }
+
+    h2 {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Caesar Cipher</h1>
+  <label for="direction">Choose operation:</label>
+  <select id="direction">
+    <option value="encode">Encrypt</option>
+    <option value="decode">Decrypt</option>
+  </select><br>
+
+  <label for="text">Enter your message:</label>
+  <textarea id="text" rows="4"></textarea><br>
+
+  <label for="shift">Enter the shift number:</label>
+  <input type="number" id="shift" min="1" max="25"><br>
+
+  <button onclick="performCipher()">Perform Cipher</button><br>
+
+  <h2>Result:</h2>
+  <p id="result"></p>
+
+  <script>
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
+    function caesar(startText, shiftAmount, cipherDirection) {
+      let endText = '';
+      if (cipherDirection === 'decode') {
+        shiftAmount *= -1;
+      }
+      for (let char of startText) {
+        if (alphabet.includes(char)) {
+          const position = alphabet.indexOf(char);
+          const newPosition = (position + shiftAmount + 26) % 26;
+          endText += alphabet[newPosition];
+        } else {
+          endText += char;
+        }
+      }
+      return endText;
+    }
+
+    function performCipher() {
+      const direction = document.getElementById('direction').value;
+      const text = document.getElementById('text').value.toLowerCase();
+      const shift = parseInt(document.getElementById('shift').value);
+
+      const result = caesar(text, shift, direction);
+      document.getElementById('result').innerText = 'Result: ' + result;
+    }
+  </script>
+</body>
+</html>
